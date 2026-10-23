@@ -18,6 +18,11 @@ document.querySelectorAll('.play').forEach(b => {
         title: 'Retro Bowl',
         url: 'https://www.miniplay.com/embed/retro-bowl',
         hint: 'If the game does not load, the website may block embedding.'
+    },
+    headsoccer: {
+      title: 'Head Soccer 2022',
+      url: 'https://games.construct.net/54347/latest',
+      hint: 'If the game does not load, the website may block embedding.'
     }
   };
 
