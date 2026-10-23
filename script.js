@@ -10,8 +10,8 @@ document.querySelectorAll('.play').forEach(b => {
   b.onclick = () => {
     const games = {
       basket: {
-        title: 'Basket Random',
-        url: 'https://www.randombasketball.com/',
+        title: 'Courtside26',
+        url: 'https://tikgame.org/embed/courtside26/',
         hint: 'If the game does not load, the website may block embedding.'
       },
       retro: {
