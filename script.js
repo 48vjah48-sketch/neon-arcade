@@ -5,7 +5,47 @@ const modal=$('#modal'),content=$('#content');let cleanup=()=>{};
 function open(title,hint){cleanup();cleanup=()=>{};$('#title').textContent=title;$('#hint').textContent=hint;content.innerHTML='';modal.hidden=false;document.body.style.overflow='hidden'}
 function close(){cleanup();modal.hidden=true;document.body.style.overflow='';content.innerHTML=''}
 $('#close').onclick=close;modal.onclick=e=>{if(e.target===modal)close()};document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
-document.querySelectorAll('.play').forEach(b=>b.onclick=()=>({snake:snake,pong:pong,memory:memory,space:space,brick:brick,reflex:reflex}[b.dataset.game])());
+
+document.querySelectorAll('.play').forEach(b => {
+  b.onclick = () => {
+    const games = {
+      basket: {
+        title: 'Basket Random',
+        url: 'https://www.randombasketball.com/',
+        hint: 'If the game does not load, the website may block embedding.'
+      },
+      retro: {
+        title: 'Retro Bowl',
+        url: 'https://www.miniplay.com/embed/retro-bowl',
+        hint: 'If the game does not load, the website may block embedding.'
+      }
+    };
+
+    if (games[b.dataset.game]) {
+      embeddedGame(games[b.dataset.game]);
+      return;
+    }
+
+    ({
+      snake, pong, memory, space, brick, reflex
+    }[b.dataset.game])?.();
+  };
+});
+
+function embeddedGame(game) {
+  open(game.title, game.hint);
+
+  const frame = document.createElement('iframe');
+  frame.src = game.url;
+  frame.title = game.title;
+  frame.allow = 'fullscreen';
+  frame.allowFullscreen = true;
+  frame.style.cssText =
+    'width:100%;height:65vh;min-height:350px;border:0;border-radius:7px;background:#070714';
+
+  content.append(frame);
+}
+
 function canvas(){let c=document.createElement('canvas');c.className='canvas';c.width=600;c.height=400;content.append(c);return[c,c.getContext('2d')]}
 function controls(text,restart){let d=document.createElement('div');d.className='controls';let s=document.createElement('span');s.textContent=text;let b=document.createElement('button');b.textContent='RESTART';b.onclick=restart;d.append(s,b);content.append(d)}
 function snake(){open('Neon Snake','Arrow keys/WASD or swipe. Eat pink dots.');let[c,x]=canvas(),s,dir,nd,food,score,loop,alive;function reset(){clearInterval(loop);s=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];dir={x:1,y:0};nd=dir;food={x:20,y:10};score=0;alive=true;loop=setInterval(step,115);draw()}function draw(){x.fillStyle='#070714';x.fillRect(0,0,600,400);x.fillStyle='#ff43c6';x.fillRect(food.x*20+4,food.y*20+4,12,12);s.forEach((p,i)=>{x.fillStyle=i?'#279eac':'#42f5ef';x.shadowColor='#42f5ef';x.shadowBlur=8;x.fillRect(p.x*20+2,p.y*20+2,16,16)});x.shadowBlur=0;x.fillStyle='white';x.font='16px Arial';x.fillText('SCORE '+score,12,24);if(!alive){x.fillStyle='#ff43c6';x.font='bold 34px Arial';x.textAlign='center';x.fillText('GAME OVER',300,205);x.textAlign='left'}}function step(){dir=nd;let h={x:s[0].x+dir.x,y:s[0].y+dir.y};if(h.x<0||h.x>=30||h.y<0||h.y>=20||s.some(p=>p.x===h.x&&p.y===h.y)){alive=false;clearInterval(loop);draw();return}s.unshift(h);if(h.x===food.x&&h.y===food.y){score+=10;do{food={x:Math.random()*30|0,y:Math.random()*20|0}}while(s.some(p=>p.x===food.x&&p.y===food.y))}else s.pop();draw()}let key=e=>{let m={ArrowUp:[0,-1],w:[0,-1],ArrowDown:[0,1],s:[0,1],ArrowLeft:[-1,0],a:[-1,0],ArrowRight:[1,0],d:[1,0]}[e.key];if(m){e.preventDefault();if(m[0]!==-dir.x||m[1]!==-dir.y)nd={x:m[0],y:m[1]}}};document.addEventListener('keydown',key);controls('Move with arrows or WASD',reset);cleanup=()=>{clearInterval(loop);document.removeEventListener('keydown',key)};reset()}
