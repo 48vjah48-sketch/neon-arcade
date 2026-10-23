@@ -23,13 +23,8 @@ document.querySelectorAll('.play').forEach(b => {
       title: 'Head Soccer 2022',
       url: 'https://games.construct.net/54347/latest',
       hint: 'If the game does not load, the website may block embedding.'
-    },
-    slope: {
-      title: 'Slope',
-      url: 'https://y8.com/embed/slope',
-      hint: 'If the game does not load, the website may block embedding.'
     }
- };
+  };
 
 
     if (games[b.dataset.game]) {
@@ -43,39 +38,7 @@ document.querySelectorAll('.play').forEach(b => {
   };
 });
 
-
-
 function embeddedGame(game) {
-  open(game.title, game.hint);
-
-  const frame = document.createElement('iframe');
-  frame.src = game.url;
-  frame.title = game.title;
-  frame.allow = 'fullscreen';
-  frame.allowFullscreen = true;
-  frame.style.cssText =
-    'width:100%;height:65vh;min-height:350px;border:0;border-radius:7px;background:#070714';
-
-  const fullscreenBtn = document.createElement('button');
-  fullscreenBtn.textContent = '⛶ Fullscreen';
-  fullscreenBtn.style.cssText =
-    'display:block;margin:0 0 10px auto;padding:10px 18px;background:#00f5ff;color:#070714;border:0;border-radius:8px;font-weight:bold;cursor:pointer';
-
-  fullscreenBtn.onclick = () => {
-    if (frame.requestFullscreen) {
-      frame.requestFullscreen().catch(() => {
-        alert('Fullscreen is blocked by the browser or game host.');
-      });
-    }
-  };
-
-  content.append(fullscreenBtn, frame);
-    }
-  };
-
-  content.append(fullscreenBtn, frame);
-}
-
   open(game.title, game.hint);
 
   const frame = document.createElement('iframe');
