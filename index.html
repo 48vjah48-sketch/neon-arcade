@@ -1,76 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080816">
-  <title>Neon Arcade</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="background-glow glow-one"></div>
-  <div class="background-glow glow-two"></div>
-  <header class="topbar">
-    <a class="brand" href="#" aria-label="Neon Arcade home"><span class="brand-icon">✦</span> NEON<span>ARCADE</span></a>
-    <div class="topbar-tag">INSERT COIN <span>●</span> PLAY FREE</div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="eyebrow"><span class="pulse-dot"></span> YOUR NEXT HIGH SCORE STARTS HERE</div>
-      <h1>PRESS START.<br><span>ENTER THE ARCADE.</span></h1>
-      <p>A pocket-sized arcade packed with classic-style games. No downloads. Just play.</p>
-      <a class="primary-button" href="#games">✦ &nbsp; EXPLORE GAMES</a>
-      <div class="hero-stats">
-        <div><strong id="game-count">03</strong><span>GAMES</span></div>
-        <div><strong>∞</strong><span>REPLAYS</span></div>
-        <div><strong>FREE</strong><span>TO PLAY</span></div>
-      </div>
-    </section>
-
-    <section class="games-section" id="games">
-      <div class="section-heading">
-        <div><div class="eyebrow">THE GAME ROOM</div><h2>Choose your <span>challenge.</span></h2></div>
-        <label class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search games..." aria-label="Search games"></label>
-      </div>
-      <div class="filters" aria-label="Game filters">
-        <button class="filter active" data-filter="all">ALL GAMES</button>
-        <button class="filter" data-filter="arcade">ARCADE</button>
-        <button class="filter" data-filter="puzzle">PUZZLE</button>
-      </div>
-
-      <div class="game-grid" id="game-grid">
-        <article class="game-card" data-name="neon snake" data-category="arcade">
-          <div class="game-art snake-art"><span class="art-badge">ARCADE</span><div class="snake-emoji">🐍</div><div class="art-title">NEON<br>SNAKE</div></div>
-          <div class="card-info"><div><h3>Neon Snake</h3><p>Eat, grow, don't crash.</p></div><span class="game-number">01</span></div>
-          <button class="play-button" data-game="snake">PLAY NOW <span>↗</span></button>
-        </article>
-
-        <article class="game-card" data-name="pixel pong" data-category="arcade">
-          <div class="game-art pong-art"><span class="art-badge">ARCADE</span><div class="pong-visual"><i></i><b></b><em></em></div><div class="art-title">PIXEL<br>PONG</div></div>
-          <div class="card-info"><div><h3>Pixel Pong</h3><p>Keep the ball in play.</p></div><span class="game-number">02</span></div>
-          <button class="play-button" data-game="pong">PLAY NOW <span>↗</span></button>
-        </article>
-
-        <article class="game-card" data-name="memory flip" data-category="puzzle">
-          <div class="game-art memory-art"><span class="art-badge">PUZZLE</span><div class="memory-tiles"><i>★</i><i>?</i><i>◆</i><i>?</i></div><div class="art-title">MEMORY<br>FLIP</div></div>
-          <div class="card-info"><div><h3>Memory Flip</h3><p>Match every pair.</p></div><span class="game-number">03</span></div>
-          <button class="play-button" data-game="memory">PLAY NOW <span>↗</span></button>
-        </article>
-      </div>
-      <p id="no-results" class="no-results" hidden>No games found. Try another search.</p>
-    </section>
-  </main>
-
-  <footer><a class="brand small-brand" href="#">✦ NEON<span>ARCADE</span></a><p>Made for fun. Play fair, chase high scores.</p><span class="footer-pixel">■ □ ■ □ ■</span></footer>
-
-  <div class="modal" id="game-modal" hidden>
-    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div class="modal-header"><div><div class="eyebrow">NOW PLAYING</div><h2 id="modal-title">Game</h2></div><button class="close-button" id="close-modal" aria-label="Close game">✕</button></div>
-      <div id="game-content"></div>
-      <p class="modal-hint" id="modal-hint"></p>
-    </div>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Neon Arcade</title><link rel="stylesheet" href="style.css"></head>
+<body><header><a class="logo" href="#">✦ NEON<span>ARCADE</span></a><span>INSERT COIN · PLAY FREE</span></header>
+<main><section class="hero"><p class="eyebrow">✦ YOUR NEXT HIGH SCORE STARTS HERE</p><h1>PRESS START.<br><span>ENTER THE ARCADE.</span></h1><p>Classic-style browser games. No downloads. Just play.</p><a class="cta" href="#games">EXPLORE GAMES ↓</a><div class="stats"><b>06<small>GAMES</small></b><b>∞<small>REPLAYS</small></b><b>FREE<small>TO PLAY</small></b></div></section>
+<section id="games"><div class="heading"><div><p class="eyebrow">THE GAME ROOM</p><h2>Choose your <span>challenge.</span></h2></div><input id="search" placeholder="⌕  Search games..." aria-label="Search games"></div><nav><button class="filter active" data-filter="all">ALL GAMES</button><button class="filter" data-filter="arcade">ARCADE</button><button class="filter" data-filter="puzzle">PUZZLE</button></nav>
+<div class="grid" id="grid">
+<article class="card" data-name="neon snake" data-category="arcade"><div class="art cyan"><label>ARCADE</label><div class="emoji">🐍</div><strong>NEON<br>SNAKE</strong></div><h3>Neon Snake</h3><p>Eat, grow, don't crash.</p><button class="play" data-game="snake">PLAY NOW ↗</button></article>
+<article class="card" data-name="pixel pong" data-category="arcade"><div class="art pink"><label>ARCADE</label><div class="emoji">🏓</div><strong>PIXEL<br>PONG</strong></div><h3>Pixel Pong</h3><p>Keep the ball in play.</p><button class="play" data-game="pong">PLAY NOW ↗</button></article>
+<article class="card" data-name="memory flip" data-category="puzzle"><div class="art purple"><label>PUZZLE</label><div class="emoji">◆ ★ ◆</div><strong>MEMORY<br>FLIP</strong></div><h3>Memory Flip</h3><p>Match every pair.</p><button class="play" data-game="memory">PLAY NOW ↗</button></article>
+<article class="card" data-name="cosmic blaster space shooter" data-category="arcade"><div class="art purple"><label>ARCADE</label><div class="emoji">🚀</div><strong>COSMIC<br>BLASTER</strong></div><h3>Cosmic Blaster</h3><p>Blast incoming asteroids.</p><button class="play" data-game="space">PLAY NOW ↗</button></article>
+<article class="card" data-name="brick breaker breakout" data-category="arcade"><div class="art pink"><label>ARCADE</label><div class="emoji">▦</div><strong>BRICK<br>BREAKER</strong></div><h3>Brick Breaker</h3><p>Smash every brick.</p><button class="play" data-game="brick">PLAY NOW ↗</button></article>
+<article class="card" data-name="quick click reaction reflex" data-category="puzzle"><div class="art cyan"><label>CHALLENGE</label><div class="emoji">⚡</div><strong>QUICK<br>CLICK</strong></div><h3>Quick Click</h3><p>Test your reaction speed.</p><button class="play" data-game="reflex">PLAY NOW ↗</button></article>
+</div><p id="empty" hidden>No games found. Try another search.</p></section></main>
+<footer>✦ NEON<span>ARCADE</span><small>Made for fun. Chase high scores.</small></footer>
+<div id="modal" class="modal" hidden><div class="panel"><div class="modalhead"><div><p class="eyebrow">NOW PLAYING</p><h2 id="title">Game</h2></div><button id="close" class="close">✕</button></div><div id="content"></div><p id="hint" class="hint"></p></div></div><script src="script.js"></script></body></html>
