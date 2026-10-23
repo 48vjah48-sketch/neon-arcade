@@ -43,7 +43,38 @@ document.querySelectorAll('.play').forEach(b => {
   };
 });
 
+
 function embeddedGame(game) {
+  open(game.title, game.hint);
+
+  const frame = document.createElement('iframe');
+  frame.src = game.url;
+  frame.title = game.title;
+  frame.allow = 'fullscreen';
+  frame.allowFullscreen = true;
+  frame.style.cssText =
+    'display:block;width:100%;height:75vh;min-height:400px;border:0;border-radius:7px;background:#070714';
+
+  const fullscreenBtn = document.createElement('button');
+  fullscreenBtn.textContent = '⛶ Fullscreen';
+  fullscreenBtn.style.cssText =
+    'display:block;margin:0 0 10px auto;padding:10px 18px;background:#00f5ff;color:#070714;border:0;border-radius:8px;font-weight:bold;cursor:pointer';
+
+  fullscreenBtn.onclick = async () => {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await frame.requestFullscreen();
+      }
+    } catch (error) {
+      alert('Fullscreen is not supported here. Try opening the game in a new tab.');
+    }
+  };
+
+  content.append(fullscreenBtn, frame);
+}
+
   open(game.title, game.hint);
 
   const frame = document.createElement('iframe');
