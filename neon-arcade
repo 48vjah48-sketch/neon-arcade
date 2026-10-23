@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080816">
+  <title>Neon Arcade</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-glow glow-one"></div>
+  <div class="background-glow glow-two"></div>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Neon Arcade home"><span class="brand-icon">✦</span> NEON<span>ARCADE</span></a>
+    <div class="topbar-tag">INSERT COIN <span>●</span> PLAY FREE</div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span class="pulse-dot"></span> YOUR NEXT HIGH SCORE STARTS HERE</div>
+      <h1>PRESS START.<br><span>ENTER THE ARCADE.</span></h1>
+      <p>A pocket-sized arcade packed with classic-style games. No downloads. Just play.</p>
+      <a class="primary-button" href="#games">✦ &nbsp; EXPLORE GAMES</a>
+      <div class="hero-stats">
+        <div><strong id="game-count">03</strong><span>GAMES</span></div>
+        <div><strong>∞</strong><span>REPLAYS</span></div>
+        <div><strong>FREE</strong><span>TO PLAY</span></div>
+      </div>
+    </section>
+
+    <section class="games-section" id="games">
+      <div class="section-heading">
+        <div><div class="eyebrow">THE GAME ROOM</div><h2>Choose your <span>challenge.</span></h2></div>
+        <label class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search games..." aria-label="Search games"></label>
+      </div>
+      <div class="filters" aria-label="Game filters">
+        <button class="filter active" data-filter="all">ALL GAMES</button>
+        <button class="filter" data-filter="arcade">ARCADE</button>
+        <button class="filter" data-filter="puzzle">PUZZLE</button>
+      </div>
+
+      <div class="game-grid" id="game-grid">
+        <article class="game-card" data-name="neon snake" data-category="arcade">
+          <div class="game-art snake-art"><span class="art-badge">ARCADE</span><div class="snake-emoji">🐍</div><div class="art-title">NEON<br>SNAKE</div></div>
+          <div class="card-info"><div><h3>Neon Snake</h3><p>Eat, grow, don't crash.</p></div><span class="game-number">01</span></div>
+          <button class="play-button" data-game="snake">PLAY NOW <span>↗</span></button>
+        </article>
+
+        <article class="game-card" data-name="pixel pong" data-category="arcade">
+          <div class="game-art pong-art"><span class="art-badge">ARCADE</span><div class="pong-visual"><i></i><b></b><em></em></div><div class="art-title">PIXEL<br>PONG</div></div>
+          <div class="card-info"><div><h3>Pixel Pong</h3><p>Keep the ball in play.</p></div><span class="game-number">02</span></div>
+          <button class="play-button" data-game="pong">PLAY NOW <span>↗</span></button>
+        </article>
+
+        <article class="game-card" data-name="memory flip" data-category="puzzle">
+          <div class="game-art memory-art"><span class="art-badge">PUZZLE</span><div class="memory-tiles"><i>★</i><i>?</i><i>◆</i><i>?</i></div><div class="art-title">MEMORY<br>FLIP</div></div>
+          <div class="card-info"><div><h3>Memory Flip</h3><p>Match every pair.</p></div><span class="game-number">03</span></div>
+          <button class="play-button" data-game="memory">PLAY NOW <span>↗</span></button>
+        </article>
+      </div>
+      <p id="no-results" class="no-results" hidden>No games found. Try another search.</p>
+    </section>
+  </main>
+
+  <footer><a class="brand small-brand" href="#">✦ NEON<span>ARCADE</span></a><p>Made for fun. Play fair, chase high scores.</p><span class="footer-pixel">■ □ ■ □ ■</span></footer>
+
+  <div class="modal" id="game-modal" hidden>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header"><div><div class="eyebrow">NOW PLAYING</div><h2 id="modal-title">Game</h2></div><button class="close-button" id="close-modal" aria-label="Close game">✕</button></div>
+      <div id="game-content"></div>
+      <p class="modal-hint" id="modal-hint"></p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+const searchInput = document.querySelector("#search");
+const cards = [...document.querySelectorAll(".game-card")];
+const filters = [...document.querySelectorAll(".filter")];
+const noResults = document.querySelector("#no-results");
+const modal = document.querySelector("#game-modal");
+const gameContent = document.querySelector("#game-content");
+const modalTitle = document.querySelector("#modal-title");
+const modalHint = document.querySelector("#modal-hint");
+let activeFilter = "all";
+let cleanupGame = () => {};
+
+function updateGames() {
+  const term = searchInput.value.toLowerCase().trim();
+  let visible = 0;
+  cards.forEach(card => {
+    const matches = card.dataset.name.includes(term) &&
+      (activeFilter === "all" || card.dataset.category === activeFilter);
+    card.hidden = !matches;
+    if (matches) visible++;
+  });
+  noResults.hidden = visible !== 0;
+}
+searchInput.addEventListener("input", updateGames);
+filters.forEach(button => button.addEventListener("click", () => {
+  activeFilter = button.dataset.filter;
+  filters.forEach(item => item.classList.toggle("active", item === button));
+  updateGames();
+}));
+
+function openGame(title, hint) {
+  cleanupGame();
+  cleanupGame = () => {};
+  modalTitle.textContent = title;
+  modalHint.textContent = hint;
+  gameContent.innerHTML = "";
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+function closeGame() {
+  cleanupGame();
+  cleanupGame = () => {};
+  modal.hidden = true;
+  document.body.style.overflow = "";
+  gameContent.innerHTML = "";
+}
+document.querySelector("#close-modal").addEventListener("click", closeGame);
+modal.addEventListener("click", e => { if (e.target === modal) closeGame(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) closeGame(); });
+document.querySelectorAll(".play-button").forEach(button => button.addEventListener("click", () => {
+  const game = button.dataset.game;
+  if (game === "snake") startSnake();
+  if (game === "pong") startPong();
+  if (game === "memory") startMemory();
+}));
+
+function makeCanvas() {
+  const canvas = document.createElement("canvas");
+  canvas.className = "game-canvas";
+  canvas.width = 600;
+  canvas.height = 400;
+  gameContent.appendChild(canvas);
+  return [canvas, canvas.getContext("2d")];
+}
+function addControls(text, restart) {
+  const controls = document.createElement("div");
+  controls.className = "game-controls";
+  const label = document.createElement("span");
+  label.textContent = text;
+  const button = document.createElement("button");
+  button.textContent = "RESTART";
+  button.addEventListener("click", restart);
+  controls.append(label, button);
+  gameContent.appendChild(controls);
+}
+
+function startSnake() {
+  openGame("Neon Snake", "Use arrow keys or WASD. On a phone, swipe the game board.");
+  const [canvas, ctx] = makeCanvas();
+  let snake, direction, nextDirection, food, score, timer, alive;
+  const size = 20, cols = 30, rows = 20;
+  function reset() {
+    clearInterval(timer);
+    snake = [{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+    direction = {x:1,y:0}; nextDirection = direction;
+    food = {x:20,y:10}; score = 0; alive = true;
+    draw();
+    timer = setInterval(step, 115);
+  }
+  function placeFood() {
+    do { food = {x:Math.floor(Math.random()*cols),y:Math.floor(Math.random()*rows)}; }
+    while (snake.some(p => p.x===food.x && p.y===food.y));
+  }
+  function draw() {
+    ctx.fillStyle="#070714";ctx.fillRect(0,0,600,400);
+    ctx.strokeStyle="#ffffff08";
+    for(let x=0;x<=600;x+=20){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,400);ctx.stroke()}
+    for(let y=0;y<=400;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(600,y);ctx.stroke()}
+    ctx.fillStyle="#ff43c6";ctx.shadowColor="#ff43c6";ctx.shadowBlur=18;
+    ctx.fillRect(food.x*size+4,food.y*size+4,12,12);ctx.shadowBlur=0;
+    snake.forEach((p,i)=>{ctx.fillStyle=i===0?"#42f5ef":"#279eac";ctx.shadowColor="#42f5ef";ctx.shadowBlur=i===0?15:4;ctx.fillRect(p.x*size+2,p.y*size+2,16,16)});
+    ctx.shadowBlur=0;ctx.fillStyle="#fff";ctx.font="bold 16px Arial";ctx.fillText("SCORE: "+score,12,24);
+    if(!alive){ctx.fillStyle="#070714cc";ctx.fillRect(0,0,600,400);ctx.fillStyle="#ff43c6";ctx.font="bold 38px Arial";ctx.textAlign="center";ctx.fillText("GAME OVER",300,190);ctx.fillStyle="#fff";ctx.font="18px Arial";ctx.fillText("Score: "+score+" — press Restart",300,225);ctx.textAlign="left"}
+  }
+  function step() {
+    direction = nextDirection;
+    const head={x:snake[0].x+direction.x,y:snake[0].y+direction.y};
+    if(head.x<0||head.x>=cols||head.y<0||head.y>=rows||snake.some(p=>p.x===head.x&&p.y===head.y)){alive=false;clearInterval(timer);draw();return}
+    snake.unshift(head);
+    if(head.x===food.x&&head.y===food.y){score+=10;placeFood()}else snake.pop();
+    draw();
+  }
+  const onKey = e => {
+    const keys={ArrowUp:[0,-1],w:[0,-1],ArrowDown:[0,1],s:[0,1],ArrowLeft:[-1,0],a:[-1,0],ArrowRight:[1,0],d:[1,0]};
+    const v=keys[e.key];if(!v)return;
+    e.preventDefault();const candidate={x:v[0],y:v[1]};
+    if(candidate.x!==-direction.x||candidate.y!==-direction.y)nextDirection=candidate;
+  };
+  let touchX=0,touchY=0;
+  const touchStart=e=>{touchX=e.changedTouches[0].clientX;touchY=e.changedTouches[0].clientY};
+  const touchEnd=e=>{const dx=e.changedTouches[0].clientX-touchX,dy=e.changedTouches[0].clientY-touchY;let v=Math.abs(dx)>Math.abs(dy)?{x:Math.sign(dx),y:0}:{x:0,y:Math.sign(dy)};if(v.x!==-direction.x||v.y!==-direction.y)nextDirection=v};
+  document.addEventListener("keydown",onKey);canvas.addEventListener("touchstart",touchStart,{passive:true});canvas.addEventListener("touchend",touchEnd,{passive:true});
+  addControls("Score: +10 per fruit",reset);cleanupGame=()=>{clearInterval(timer);document.removeEventListener("keydown",onKey);canvas.removeEventListener("touchstart",touchStart);canvas.removeEventListener("touchend",touchEnd)};
+  reset();
+}
+
+function startPong() {
+  openGame("Pixel Pong", "Move your paddle with your mouse, touch, or the up/down arrow keys.");
+  const [canvas,ctx]=makeCanvas();
+  let paddleY,ball,score,misses,timer;
+  function reset(){clearInterval(timer);paddleY=160;ball={x:300,y:200,vx:4*(Math.random()>.5?1:-1),vy:2.7};score=0;misses=0;draw();timer=setInterval(step,1000/60)}
+  function draw(){
+    ctx.fillStyle="#070714";ctx.fillRect(0,0,600,400);
+    ctx.setLineDash([8,12]);ctx.strokeStyle="#ffffff30";ctx.beginPath();ctx.moveTo(300,0);ctx.lineTo(300,400);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle="#ff43c6";ctx.shadowColor="#ff43c6";ctx.shadowBlur=15;ctx.fillRect(24,paddleY,10,80);
+    ctx.fillStyle="#42f5ef";ctx.shadowColor="#42f5ef";ctx.fillRect(566,ball.y-38,10,76);
+    ctx.fillStyle="#fff";ctx.shadowColor="#fff";ctx.shadowBlur=16;ctx.fillRect(ball.x-7,ball.y-7,14,14);ctx.shadowBlur=0;
+    ctx.font="bold 18px Arial";ctx.fillStyle="#fff";ctx.fillText("SCORE "+score,22,28);ctx.fillText("MISSES "+misses,490,28);
+  }
+  function step(){
+    ball.x+=ball.vx;ball.y+=ball.vy;
+    if(ball.y<8||ball.y>392)ball.vy*=-1;
+    if(ball.x<42&&ball.x>25&&ball.y>paddleY-3&&ball.y<paddleY+83){ball.vx=Math.abs(ball.vx)*1.04;ball.vy+=(ball.y-(paddleY+40))*.08;score++}
+    if(ball.x>558&&ball.y>ball.y-38&&ball.y<ball.y+38){ball.vx=-Math.abs(ball.vx)}
+    if(ball.x>590){misses++;ball.x=300;ball.y=200;ball.vx=-4;ball.vy=2}
+    if(ball.x<0){misses++;ball.x=300;ball.y=200;ball.vx=4;ball.vy=-2}
+    draw();
+  }
+  const move=e=>{const rect=canvas.getBoundingClientRect();paddleY=Math.max(0,Math.min(320,(e.clientY-rect.top)*400/rect.height-40))};
+  const key=e=>{if(e.key==="ArrowUp")paddleY=Math.max(0,paddleY-22);if(e.key==="ArrowDown")paddleY=Math.min(320,paddleY+22)};
+  canvas.addEventListener("pointermove",move);document.addEventListener("keydown",key);
+  addControls("Move to bounce the ball back",reset);cleanupGame=()=>{clearInterval(timer);canvas.removeEventListener("pointermove",move);document.removeEventListener("keydown",key)};
+  reset();
+}
+
+function startMemory() {
+  openGame("Memory Flip", "Flip two cards at a time and find all 8 matching pairs.");
+  const board=document.createElement("div");board.className="memory-board";gameContent.appendChild(board);
+  const symbols=["★","◆","●","▲","☾","✿","♥","✦"];
+  let deck=[],opened=[],matched=0,locked=false,moves=0,timeout;
+  const status=document.createElement("div");status.className="game-controls";gameContent.appendChild(status);
+  function reset(){
+    clearTimeout(timeout);deck=[...symbols,...symbols].sort(()=>Math.random()-.5);opened=[];matched=0;moves=0;locked=false;render();
+  }
+  function render(){
+    board.innerHTML="";
+    deck.forEach((symbol,index)=>{
+      const button=document.createElement("button");
+      const isOpen=opened.includes(index)||deck[index]===null;
+      button.textContent=isOpen?(symbol||"✓"):"?";
+      if(isOpen)button.classList.add(deck[index]===null?"matched":"flipped");
+      button.disabled=locked||deck[index]===null;
+      button.addEventListener("click",()=>flip(index));
+      board.appendChild(button);
+    });
+    status.textContent=matched===8?`You won in ${moves} moves! 🎉`:`Matches: ${matched}/8  •  Moves: ${moves}`;
+  }
+  function flip(index){
+    if(locked||opened.includes(index)||deck[index]===null)return;
+    opened.push(index);render();
+    if(opened.length===2){
+      moves++;
+      const [a,b]=opened;
+      if(deck[a]===deck[b]){deck[a]=null;deck[b]=null;matched++;opened=[];render()}
+      else{locked=true;timeout=setTimeout(()=>{opened=[];locked=false;render()},750)}
+    }
+  }
+  addControls("Find all matching pairs",reset);
+  cleanupGame=()=>clearTimeout(timeout);
+  reset();
+}
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{--bg:#080816;--panel:#111126;--text:#f4f2ff;--muted:#a6a4c3;--cyan:#42f5ef;--pink:#ff43c6;--purple:#8a5cff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,#000 0%,transparent 75%)}
+.background-glow{position:fixed;width:440px;height:440px;border-radius:50%;filter:blur(100px);opacity:.16;pointer-events:none;z-index:-1;animation:float 10s ease-in-out infinite alternate}
+.glow-one{background:var(--purple);top:60px;left:-180px}.glow-two{background:var(--pink);top:440px;right:-230px;animation-delay:-4s}
+@keyframes float{to{transform:translate(80px,60px) scale(1.2)}}
+.topbar{height:78px;max-width:1180px;margin:auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff12}
+.brand{display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font:800 17px Orbitron,sans-serif;letter-spacing:1px}.brand-icon{color:var(--cyan);font-size:26px;text-shadow:0 0 15px var(--cyan)}.brand span:last-child{color:var(--cyan)}
+.topbar-tag{font:600 10px Orbitron,sans-serif;letter-spacing:1.5px;color:var(--muted)}.topbar-tag span{color:var(--pink);margin:0 7px;text-shadow:0 0 9px var(--pink)}
+main{max-width:1180px;margin:auto;padding:0 24px}
+.hero{padding:86px 0 74px;text-align:center}
+.eyebrow{font:700 10px Orbitron,sans-serif;letter-spacing:2px;color:var(--cyan);display:flex;align-items:center;gap:9px}
+.hero .eyebrow{justify-content:center}
+.pulse-dot{height:7px;width:7px;background:var(--pink);border-radius:50%;box-shadow:0 0 12px var(--pink);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.35;transform:scale(.7)}}
+h1,h2,h3,p{margin-top:0}
+h1{font:900 clamp(35px,6vw,68px)/1.15 Orbitron,sans-serif;letter-spacing:-2px;margin:22px 0 18px}
+h1 span{color:var(--cyan);text-shadow:0 0 28px #42f5ef30}
+.hero>p{max-width:530px;margin:0 auto 28px;color:var(--muted);font-size:15px;line-height:1.7}
+.primary-button{display:inline-block;padding:15px 23px;border-radius:7px;color:#080816;background:var(--cyan);font:800 11px Orbitron,sans-serif;letter-spacing:1px;text-decoration:none;box-shadow:0 0 25px #42f5ef30;transition:transform .2s,box-shadow .2s}
+.primary-button:hover{transform:translateY(-3px);box-shadow:0 0 35px #42f5ef65}
+.hero-stats{display:flex;justify-content:center;gap:60px;margin-top:48px}.hero-stats div{display:grid;gap:6px}.hero-stats strong{font:800 18px Orbitron,sans-serif}.hero-stats span{font:600 9px Orbitron,sans-serif;letter-spacing:1.5px;color:var(--muted)}
+.games-section{padding:26px 0 80px}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:20px}
+.section-heading h2{font:800 clamp(23px,4vw,34px) Orbitron,sans-serif;margin:12px 0 0;letter-spacing:-1px}.section-heading h2 span{color:var(--pink)}
+.search-wrap{display:flex;align-items:center;gap:10px;width:min(290px,100%);background:#111126;border:1px solid #ffffff19;border-radius:8px;padding:0 14px;color:var(--cyan)}.search-wrap span{font-size:25px}.search-wrap input{width:100%;background:none;border:0;outline:0;color:#fff;padding:14px 0;font:500 12px Inter,sans-serif}.search-wrap input::placeholder{color:#797795}
+.filters{display:flex;gap:8px;margin:27px 0 20px}.filter{background:#111126;border:1px solid #ffffff16;color:var(--muted);border-radius:5px;padding:10px 13px;font:700 9px Orbitron,sans-serif;letter-spacing:1px;cursor:pointer}.filter.active,.filter:hover{color:var(--cyan);border-color:#42f5ef70;background:#42f5ef0b}
+.game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.game-card{background:linear-gradient(145deg,#15152d,#0e0e20);border:1px solid #ffffff13;border-radius:12px;padding:10px;transition:transform .22s,border-color .22s;min-width:0}
+.game-card:hover{transform:translateY(-5px);border-color:#42f5ef65}
+.game-art{height:190px;border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.game-art:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff0a 1px,transparent 1px),linear-gradient(90deg,#ffffff0a 1px,transparent 1px);background-size:22px 22px}
+.snake-art{background:radial-gradient(ellipse at 70% 25%,#174a57,#11152d 65%)}.pong-art{background:radial-gradient(ellipse at 40% 50%,#3a164f,#111126 70%)}.memory-art{background:radial-gradient(ellipse at 50% 25%,#164b50,#10152a 70%)}
+.art-badge{position:absolute;top:12px;left:12px;background:#080816b8;border:1px solid #ffffff26;padding:6px 8px;border-radius:4px;color:var(--cyan);font:700 8px Orbitron,sans-serif;letter-spacing:1px;z-index:2}
+.art-title{position:absolute;bottom:13px;left:15px;font:900 22px/1.1 Orbitron,sans-serif;letter-spacing:1px;text-shadow:0 0 18px currentColor;z-index:2}.snake-art .art-title{color:var(--cyan)}.pong-art .art-title{color:var(--pink)}.memory-art .art-title{color:#c6a4ff}
+.snake-emoji{font-size:75px;filter:drop-shadow(0 0 20px #42f5ef);transform:rotate(-15deg);animation:bob 2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-7deg)}}
+.pong-visual{position:absolute;inset:32px 40px 42px;display:flex;align-items:center;justify-content:space-between}.pong-visual i,.pong-visual b{height:56px;width:7px;border-radius:3px;background:var(--pink);box-shadow:0 0 14px var(--pink)}.pong-visual b{background:var(--cyan);box-shadow:0 0 14px var(--cyan)}.pong-visual em{width:13px;height:13px;border-radius:50%;background:#fff;box-shadow:0 0 18px #fff;animation:ball 2s ease-in-out infinite alternate}@keyframes ball{to{transform:translate(30px,-24px)}}
+.memory-tiles{display:grid;grid-template-columns:repeat(2,42px);gap:7px;transform:rotate(-8deg)}.memory-tiles i{height:42px;border:1px solid #c6a4ff;background:#8a5cff35;display:grid;place-items:center;border-radius:5px;font-style:normal;color:#d9c7ff;font-size:22px;box-shadow:0 0 15px #8a5cff25}
+.card-info{display:flex;align-items:center;justify-content:space-between;padding:16px 5px 13px}.card-info h3{font:700 13px Orbitron,sans-serif;margin:0 0 7px}.card-info p{font-size:11px;color:var(--muted);margin:0}.game-number{font:700 11px Orbitron,sans-serif;color:#62607f}
+.play-button{display:flex;width:100%;align-items:center;justify-content:space-between;background:#42f5ef0a;border:1px solid #42f5ef42;color:var(--cyan);border-radius:6px;padding:13px 14px;font:700 10px Orbitron,sans-serif;letter-spacing:1px;cursor:pointer;transition:background .2s}.play-button:hover{background:#42f5ef19}.play-button span{font-size:16px}
+.no-results{padding:35px;text-align:center;color:var(--muted)}
+footer{max-width:1180px;margin:auto;padding:25px 24px 35px;border-top:1px solid #ffffff13;display:flex;align-items:center;justify-content:space-between;gap:20px;color:var(--muted);font-size:10px}.small-brand{font-size:12px}.footer-pixel{color:var(--pink);letter-spacing:5px}
+.modal{position:fixed;inset:0;z-index:10;background:#050510dc;backdrop-filter:blur(12px);display:grid;place-items:center;padding:18px;overflow:auto}.modal[hidden]{display:none}.modal-panel{width:min(650px,100%);max-height:94vh;overflow:auto;background:#101024;border:1px solid #42f5ef4a;border-radius:14px;padding:22px;box-shadow:0 0 60px #42f5ef16}.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.modal-header h2{font:800 22px Orbitron,sans-serif;margin:8px 0 0}.close-button{background:#ffffff0b;color:#fff;border:1px solid #ffffff25;border-radius:7px;padding:10px 12px;cursor:pointer}.modal-hint{font-size:11px;color:var(--muted);text-align:center;margin:14px 0 0}
+.game-canvas{width:100%;display:block;background:#070714;border:1px solid #ffffff1c;border-radius:8px;touch-action:manipulation}
+.game-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:12px}.game-controls button,.memory-board button{background:#1a1a36;border:1px solid #42f5ef55;color:var(--cyan);padding:10px 13px;border-radius:6px;cursor:pointer;font-weight:700}
+.memory-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.memory-board button{aspect-ratio:1/1;font-size:clamp(18px,4vw,28px);background:#181832;color:#a7a4c7;border-color:#ffffff25}.memory-board button.flipped,.memory-board button.matched{color:var(--cyan);border-color:var(--cyan);background:#42f5ef12}
+@media(max-width:760px){.game-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-art{height:160px}.section-heading{align-items:stretch;flex-direction:column}.search-wrap{width:100%}.hero{padding:65px 0 55px}.hero-stats{gap:30px}}
+@media(max-width:500px){.game-grid{grid-template-columns:1fr}.game-art{height:210px}.topbar-tag{font-size:8px}.topbar{padding:0 16px}main{padding:0 16px}.hero-stats{gap:23px}.hero-stats strong{font-size:15px}footer{flex-wrap:wrap}.modal-panel{padding:15px}}
