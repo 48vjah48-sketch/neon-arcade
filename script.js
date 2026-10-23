@@ -18,8 +18,15 @@ document.querySelectorAll('.play').forEach(b => {
         title: 'Retro Bowl',
         url: 'https://www.miniplay.com/embed/retro-bowl',
         hint: 'If the game does not load, the website may block embedding.'
-      }
-    };
+      
+    },
+    subway: {
+      title: 'Subway Surfers',
+      url: 'https://poki.com/en/g/subway-surfers',
+      hint: 'If the game does not load, the website may block embedding.'
+    }
+  };
+
 
     if (games[b.dataset.game]) {
       embeddedGame(games[b.dataset.game]);
