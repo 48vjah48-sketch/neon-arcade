@@ -327,3 +327,130 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
     filterButton.classList.toggle('active', showingFavorites);
   });
 })();
+
+// NEON ARCADE - NEON CURSOR PARTICLES
+(function () {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+
+  canvas.style.cssText = `
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 99999;
+    visibility: hidden;
+  `;
+
+  document.body.appendChild(canvas);
+
+  let width = 0;
+  let height = 0;
+  let mouseX = -100;
+  let mouseY = -100;
+  let particles = [];
+  let overGame = false;
+
+  const colors = [
+    '#a855f7',
+    '#ec4899',
+    '#22d3ee',
+    '#818cf8',
+    '#f0abfc'
+  ];
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function checkGameArea(x, y) {
+    return [...document.querySelectorAll('iframe')].some(frame => {
+      const r = frame.getBoundingClientRect();
+      return x >= r.left && x <= r.right &&
+             y >= r.top && y <= r.bottom;
+    });
+  }
+
+  document.addEventListener('mousemove', event => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    overGame = checkGameArea(mouseX, mouseY);
+
+    if (overGame) {
+      canvas.style.visibility = 'hidden';
+      return;
+    }
+
+    canvas.style.visibility = 'visible';
+
+    for (let i = 0; i < 2; i++) {
+      particles.push({
+        x: mouseX + (Math.random() - 0.5) * 8,
+        y: mouseY + (Math.random() - 0.5) * 8,
+        size: Math.random() * 4 + 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        life: 1,
+        decay: Math.random() * 0.025 + 0.018,
+        vx: (Math.random() - 0.5) * 1.8,
+        vy: (Math.random() - 0.5) * 1.8
+      });
+    }
+
+    if (particles.length > 180) {
+      particles.splice(0, particles.length - 180);
+    }
+  });
+
+  document.addEventListener('mouseleave', () => {
+    canvas.style.visibility = 'hidden';
+  });
+
+  document.addEventListener('mouseenter', () => {
+    if (!overGame) canvas.style.visibility = 'visible';
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    if (checkGameArea(mouseX, mouseY)) {
+      overGame = true;
+      canvas.style.visibility = 'hidden';
+      particles = [];
+      return;
+    }
+
+    overGame = false;
+    ctx.clearRect(0, 0, width, height);
+
+    particles = particles.filter(p => p.life > 0);
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= p.decay;
+
+      ctx.globalAlpha = Math.max(0, p.life);
+      ctx.fillStyle = p.color;
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = p.color;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  animate();
+})();
