@@ -48,6 +48,12 @@ basketrandom: {
   hint: 'If the game does not load, the website may block embedding.'
 },
 
+motox3m: {
+  title: 'Moto X3M',
+  url: 'https://harshulmoon.github.io/iframes/motox3m.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
