@@ -152,6 +152,11 @@ soccerrandom: {
   url: 'https://harshulmoon.github.io/iframes/soccerrandom.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+boxingrandom: {
+  title: 'Boxing Random',
+  url: 'https://harshulmoon.github.io/iframes/boxingrandom.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
