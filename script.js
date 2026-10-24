@@ -112,7 +112,12 @@ granny: {
   url: 'https://harshulmoon.github.io/iframes/granny.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
- 
+ run3: {
+  title: 'Run 3',
+  url: 'https://harshulmoon.github.io/iframes/run3.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
