@@ -24,7 +24,12 @@ document.querySelectorAll('.play').forEach(b => {
       url: 'https://games.construct.net/54347/latest',
       hint: 'If the game does not load, the website may block embedding.'
     }
-  };
+  slope: {
+  title: 'Slope',
+  url: 'https://y8.com/embed/slope',
+  hint: 'If the game does not load, the website may block embedding.'
+      },
+    };
 
 
     if (games[b.dataset.game]) {
