@@ -187,6 +187,11 @@ leveldevil: {
   url: 'https://harshulmoon.github.io/iframes/leveldevil.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+eaglercraft: {
+  title: 'Eaglercraft',
+  url: 'https://harshulmoon.github.io/iframes/eaglercraft.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
