@@ -177,6 +177,11 @@ fred: {
   url: 'https://harshulmoon.github.io/iframes/fred.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+crossyroads: {
+  title: 'Crossy Road',
+  url: 'https://harshulmoon.github.io/iframes/crossyroads.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
