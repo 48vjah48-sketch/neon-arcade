@@ -142,6 +142,11 @@ batim: {
   url: 'https://harshulmoon.github.io/iframes/batim.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+baldi: {
+  title: "Baldi's Basics",
+  url: 'https://harshulmoon.github.io/iframes/baldi.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
