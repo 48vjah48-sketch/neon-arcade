@@ -32,7 +32,7 @@ document.querySelectorAll('.play').forEach(b => {
       
 drivemad: {
   title: 'Drive Mad',
-  url: 'https://drivinggames.io/drive-mad.embed',
+  url: 'https://harshulmoon.github.io/iframes/drivemad.html',
   hint: 'If the game does not load, the website may block embedding.'
       },
 
