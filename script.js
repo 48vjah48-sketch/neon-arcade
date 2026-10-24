@@ -54,6 +54,12 @@ motox3m: {
   hint: 'If the game does not load, the website may block embedding.'
 },
 
+polytrack: {
+  title: 'PolyTrack',
+  url: 'https://harshulmoon.github.io/iframes/polytrack.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
