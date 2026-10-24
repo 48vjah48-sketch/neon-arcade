@@ -60,6 +60,12 @@ polytrack: {
   hint: 'If the game does not load, the website may block embedding.'
 },
 
+geometrydash: {
+  title: 'Geometry Dash',
+  url: 'https://harshulmoon.github.io/iframes/geometrydash.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
