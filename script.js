@@ -127,6 +127,11 @@ doom: {
   url: 'https://harshulmoon.github.io/iframes/doom.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+getaway: {
+  title: 'Getaway Shootout',
+  url: 'https://harshulmoon.github.io/iframes/getaway.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
 
     };
 
