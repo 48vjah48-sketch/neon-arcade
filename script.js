@@ -29,6 +29,13 @@ document.querySelectorAll('.play').forEach(b => {
   url: 'https://y8.com/embed/slope',
   hint: 'If the game does not load, the website may block embedding.'
       },
+      
+drivemad: {
+  title: 'Drive Mad',
+  url: 'https://play.fancade.com/5F084A0BCE06B710',
+  hint: 'If the game does not load, the website may block embedding.'
+      },
+
     };
 
 
