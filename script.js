@@ -78,6 +78,12 @@ eggycar: {
   hint: 'If the game does not load, the website may block embedding.'
 },
 
+stickman: {
+  title: 'Stickman Hook',
+  url: 'https://harshulmoon.github.io/iframes/stickman.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
