@@ -122,6 +122,11 @@ happywheels: {
   url: 'https://harshulmoon.github.io/iframes/happywheels.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+doom: {
+  title: 'DOOM',
+  url: 'https://harshulmoon.github.io/iframes/doom.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
 
     };
 
