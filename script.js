@@ -147,6 +147,11 @@ baldi: {
   url: 'https://harshulmoon.github.io/iframes/baldi.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+soccerrandom: {
+  title: 'Soccer Random',
+  url: 'https://harshulmoon.github.io/iframes/soccerrandom.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
