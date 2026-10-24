@@ -73,3 +73,62 @@
 .favorite-filter:hover {
   transform: translateY(-2px);
 }
+
+/* FLOATING NEON CONTROLLER BACKGROUND */
+.neon-controller-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.neon-controller {
+  position: absolute;
+  width: 145px;
+  height: auto;
+  fill: none;
+  stroke: #a855f7;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.2;
+  filter: drop-shadow(0 0 5px currentColor)
+          drop-shadow(0 0 12px currentColor);
+  color: #a855f7;
+  animation: controller-float 12s ease-in-out infinite alternate;
+}
+
+.controller-one {
+  top: 15%;
+  left: 8%;
+  color: #a855f7;
+  stroke: #a855f7;
+}
+
+.controller-two {
+  top: 55%;
+  right: 7%;
+  color: #ec4899;
+  stroke: #ec4899;
+  animation-delay: -4s;
+  animation-duration: 15s;
+}
+
+.controller-three {
+  top: 78%;
+  left: 35%;
+  color: #22d3ee;
+  stroke: #22d3ee;
+  animation-delay: -8s;
+  animation-duration: 17s;
+}
+
+@keyframes controller-float {
+  from {
+    transform: translateY(-18px) rotate(-12deg);
+  }
+  to {
+    transform: translateY(22px) rotate(12deg);
+  }
+}
