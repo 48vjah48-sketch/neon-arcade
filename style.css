@@ -132,3 +132,34 @@
     transform: translateY(22px) rotate(12deg);
   }
 }
+
+/* EXTRA NEON CONTROLLERS */
+.neon-controller {
+  width: 180px;
+  opacity: 0.12;
+}
+
+.controller-four {
+  top: 35%;
+  left: 43%;
+  color: #ec4899;
+  stroke: #ec4899;
+  animation-delay: -6s;
+  animation-duration: 14s;
+}
+
+.controller-five {
+  top: 8%;
+  right: 8%;
+  color: #22d3ee;
+  stroke: #22d3ee;
+  animation-delay: -10s;
+  animation-duration: 16s;
+}
+
+/* Keep the page content above the background */
+header,
+main {
+  position: relative;
+  z-index: 1;
+}
