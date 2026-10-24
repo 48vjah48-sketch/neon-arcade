@@ -172,6 +172,11 @@ pvz2: {
   url: 'https://harshulmoon.github.io/iframes/pvz2.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+fred: {
+  title: 'Skiing Fred',
+  url: 'https://harshulmoon.github.io/iframes/fred.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
