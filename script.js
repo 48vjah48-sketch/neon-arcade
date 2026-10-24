@@ -298,3 +298,32 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
 
   updateButtons();
 })();
+
+// NEON ARCADE FAVORITES FILTER
+(function () {
+  const filterButton = document.getElementById('favorites-filter');
+  if (!filterButton) return;
+
+  let showingFavorites = false;
+
+  filterButton.addEventListener('click', function () {
+    showingFavorites = !showingFavorites;
+
+    const favorites = JSON.parse(
+      localStorage.getItem('neonArcadeFavorites') || '[]'
+    );
+
+    document.querySelectorAll('.card').forEach(card => {
+      const favoriteButton = card.querySelector('.favorite-btn');
+      const id = favoriteButton?.dataset.favorite;
+
+      card.style.display =
+        !showingFavorites || favorites.includes(id) ? '' : 'none';
+    });
+
+    filterButton.textContent = showingFavorites
+      ? '← Show All Games'
+      : '★ Favorites';
+    filterButton.classList.toggle('active', showingFavorites);
+  });
+})();
