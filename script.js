@@ -162,6 +162,11 @@ volleyrandom: {
   url: 'https://harshulmoon.github.io/iframes/volleyrandom.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+spacewaves: {
+  title: 'Space Waves',
+  url: 'https://harshulmoon.github.io/iframes/spacewaves.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
