@@ -90,6 +90,12 @@ flappybasketball: {
   hint: 'If the game does not load, the website may block embedding.'
 },
 
+blumgiball: {
+  title: 'Blumgi Ball',
+  url: 'https://harshulmoon.github.io/iframes/blumgiball.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
