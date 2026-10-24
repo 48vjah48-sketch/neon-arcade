@@ -328,49 +328,34 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
   });
 })();
 
-// NEON ARCADE - NEON CURSOR PARTICLES
+// NEON ARCADE - SMOOTH CURSOR PARTICLES
 (function () {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
 
-  canvas.style.cssText = `
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 99999;
-    visibility: hidden;
-  `;
+  canvas.style.cssText =
+    'position:fixed;inset:0;width:100%;height:100%;' +
+    'pointer-events:none;z-index:99999;';
 
   document.body.appendChild(canvas);
 
-  let width = 0;
-  let height = 0;
-  let mouseX = -100;
-  let mouseY = -100;
-  let particles = [];
+  let width, height;
+  let lastX = null, lastY = null;
+  let lastTime = 0;
   let overGame = false;
-
-  const colors = [
-    '#a855f7',
-    '#ec4899',
-    '#22d3ee',
-    '#818cf8',
-    '#f0abfc'
-  ];
+  const particles = [];
+  const colors = ['#a855f7', '#ec4899', '#22d3ee', '#818cf8'];
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = window.innerWidth;
-    height = window.innerHeight;
-
+    width = innerWidth;
+    height = innerHeight;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function checkGameArea(x, y) {
+  function isOverGame(x, y) {
     return [...document.querySelectorAll('iframe')].some(frame => {
       const r = frame.getBoundingClientRect();
       return x >= r.left && x <= r.right &&
@@ -378,73 +363,76 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
     });
   }
 
-  document.addEventListener('mousemove', event => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-    overGame = checkGameArea(mouseX, mouseY);
-
-    if (overGame) {
-      canvas.style.visibility = 'hidden';
-      return;
-    }
-
-    canvas.style.visibility = 'visible';
-
-    for (let i = 0; i < 2; i++) {
-      particles.push({
-        x: mouseX + (Math.random() - 0.5) * 8,
-        y: mouseY + (Math.random() - 0.5) * 8,
-        size: Math.random() * 4 + 2,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        life: 1,
-        decay: Math.random() * 0.025 + 0.018,
-        vx: (Math.random() - 0.5) * 1.8,
-        vy: (Math.random() - 0.5) * 1.8
-      });
-    }
-
-    if (particles.length > 180) {
-      particles.splice(0, particles.length - 180);
-    }
-  });
-
-  document.addEventListener('mouseleave', () => {
-    canvas.style.visibility = 'hidden';
-  });
-
-  document.addEventListener('mouseenter', () => {
-    if (!overGame) canvas.style.visibility = 'visible';
-  });
-
-  function animate() {
-    requestAnimationFrame(animate);
-
-    if (checkGameArea(mouseX, mouseY)) {
+  document.addEventListener('mousemove', e => {
+    if (isOverGame(e.clientX, e.clientY)) {
       overGame = true;
-      canvas.style.visibility = 'hidden';
-      particles = [];
+      lastX = lastY = null;
+      particles.length = 0;
       return;
     }
 
     overGame = false;
+
+    const now = performance.now();
+    if (now - lastTime < 20) return;
+    lastTime = now;
+
+    if (lastX !== null) {
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      const distance = Math.hypot(dx, dy);
+      const count = Math.min(3, Math.ceil(distance / 12));
+
+      for (let i = 0; i < count; i++) {
+        const t = (i + 1) / count;
+        particles.push({
+          x: lastX + dx * t,
+          y: lastY + dy * t,
+          size: Math.random() * 3 + 1.5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          life: 1,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8
+        });
+      }
+    }
+
+    lastX = e.clientX;
+    lastY = e.clientY;
+
+    if (particles.length > 120) {
+      particles.splice(0, particles.length - 120);
+    }
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
     ctx.clearRect(0, 0, width, height);
 
-    particles = particles.filter(p => p.life > 0);
+    if (overGame) {
+      particles.length = 0;
+      return;
+    }
 
-    particles.forEach(p => {
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
       p.x += p.vx;
       p.y += p.vy;
-      p.life -= p.decay;
+      p.life -= 0.025;
 
-      ctx.globalAlpha = Math.max(0, p.life);
+      if (p.life <= 0) {
+        particles.splice(i, 1);
+        continue;
+      }
+
+      ctx.globalAlpha = p.life;
       ctx.fillStyle = p.color;
-      ctx.shadowBlur = 12;
+      ctx.shadowBlur = 8;
       ctx.shadowColor = p.color;
-
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
       ctx.fill();
-    });
+    }
 
     ctx.globalAlpha = 1;
     ctx.shadowBlur = 0;
