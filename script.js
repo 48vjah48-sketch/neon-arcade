@@ -137,6 +137,11 @@ baseballbros: {
   url: 'https://harshulmoon.github.io/iframes/baseballbros.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+batim: {
+  title: 'Bendy and the Ink Machine',
+  url: 'https://harshulmoon.github.io/iframes/batim.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
