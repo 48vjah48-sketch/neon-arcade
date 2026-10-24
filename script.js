@@ -42,6 +42,12 @@ subway: {
   hint: 'If the game does not load, the website may block embedding.'
 },
 
+basketrandom: {
+  title: 'Basket Random',
+  url: 'https://harshulmoon.github.io/iframes/basket.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
