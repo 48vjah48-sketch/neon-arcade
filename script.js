@@ -182,6 +182,11 @@ crossyroads: {
   url: 'https://harshulmoon.github.io/iframes/crossyroads.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+leveldevil: {
+  title: 'Level Devil',
+  url: 'https://harshulmoon.github.io/iframes/leveldevil.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
