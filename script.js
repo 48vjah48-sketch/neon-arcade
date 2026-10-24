@@ -36,6 +36,12 @@ drivemad: {
   hint: 'If the game does not load, the website may block embedding.'
       },
 
+subway: {
+  title: 'Subway Surfers',
+  url: 'https://www.madkidgames.com/full/subway-surfers',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
