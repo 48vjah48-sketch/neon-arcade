@@ -9,3 +9,40 @@
 .panel:has(#content iframe) {
   width: min(1000px, 100%);
 }
+
+/* Neon Arcade Favorite Button */
+.favorite-btn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border: 1px solid #8b5cf6;
+  border-radius: 10px;
+  background: #151126;
+  color: #c4b5fd;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.favorite-btn:hover {
+  background: #251641;
+  border-color: #ec4899;
+  color: #f0abfc;
+  box-shadow: 0 0 12px #a855f766;
+  transform: translateY(-2px);
+}
+
+.favorite-btn.is-favorite {
+  background: #2a1235;
+  border-color: #ec4899;
+  color: #f9a8d4;
+  box-shadow: 0 0 10px #ec489944;
+}
+
+.favorite-btn.is-favorite:hover {
+  background: #3b1748;
+  box-shadow: 0 0 15px #ec489977;
+}
