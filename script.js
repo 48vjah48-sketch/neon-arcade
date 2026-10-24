@@ -32,7 +32,7 @@ document.querySelectorAll('.play').forEach(b => {
       
 drivemad: {
   title: 'Drive Mad',
-  url: 'https://play.fancade.com/5F084A0BCE06B710',
+  url: 'https://drivemad.org/',
   hint: 'If the game does not load, the website may block embedding.'
       },
 
