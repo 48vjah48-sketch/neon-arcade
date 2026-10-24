@@ -247,3 +247,54 @@ function memory(){open('Memory Flip','Tap cards and find all eight matching pair
 function space(){open('Cosmic Blaster','Move with arrows/WASD. Hold Space to shoot. Avoid asteroids.');let[c,x]=canvas(),ship,shots,rocks,score,lives,keys={},loop,tick,alive;function reset(){clearInterval(loop);ship={x:300,y:345};shots=[];rocks=[];score=0;lives=3;tick=0;alive=true;keys={};loop=setInterval(step,1000/60)}function draw(){x.fillStyle='#070714';x.fillRect(0,0,600,400);for(let i=0;i<50;i++){x.fillStyle='#42f5ef88';x.fillRect(i*113%600,(i*47+Date.now()/80*(i%3+1))%400,2,2)}x.fillStyle='#42f5ef';x.beginPath();x.moveTo(ship.x,ship.y-15);x.lineTo(ship.x-12,ship.y+12);x.lineTo(ship.x+12,ship.y+12);x.fill();x.fillStyle='#ff43c6';shots.forEach(s=>x.fillRect(s.x-2,s.y,4,10));x.strokeStyle='#c6a4ff';rocks.forEach(r=>{x.beginPath();x.arc(r.x,r.y,r.r,0,7);x.stroke()});x.fillStyle='white';x.font='16px Arial';x.fillText('SCORE '+score,12,24);x.fillText('LIVES '+lives,500,24);if(!alive){x.font='bold 34px Arial';x.textAlign='center';x.fillStyle='#ff43c6';x.fillText('GAME OVER',300,200);x.textAlign='left'}}function step(){if(!alive)return;if(keys.ArrowLeft||keys.a)ship.x-=5;if(keys.ArrowRight||keys.d)ship.x+=5;if(keys.ArrowUp||keys.w)ship.y-=4;if(keys.ArrowDown||keys.s)ship.y+=4;ship.x=Math.max(12,Math.min(588,ship.x));ship.y=Math.max(20,Math.min(385,ship.y));shots.forEach(s=>s.y-=8);shots=shots.filter(s=>s.y>-10);if(++tick%35===0)rocks.push({x:Math.random()*580+10,y:-10,r:10+Math.random()*9,vy:2+Math.random()*2});rocks.forEach(r=>r.y+=r.vy);for(let i=rocks.length-1;i>=0;i--){let r=rocks[i],hit=shots.findIndex(s=>Math.hypot(s.x-r.x,s.y-r.y)<r.r+5);if(hit>=0){shots.splice(hit,1);rocks.splice(i,1);score+=10;continue}if(Math.hypot(ship.x-r.x,ship.y-r.y)<r.r+10){rocks.splice(i,1);if(--lives<=0){alive=false;clearInterval(loop)}}else if(r.y>420)rocks.splice(i,1)}draw()}let kd=e=>{keys[e.key]=true;if(e.code==='Space'){e.preventDefault();shots.push({x:ship.x,y:ship.y-20})}},ku=e=>keys[e.key]=false;document.addEventListener('keydown',kd);document.addEventListener('keyup',ku);controls('Move: arrows/WASD · Shoot: Space',reset);cleanup=()=>{clearInterval(loop);document.removeEventListener('keydown',kd);document.removeEventListener('keyup',ku)};reset()}
 function brick(){open('Brick Breaker','Move the paddle with your mouse or left/right arrows.');let[c,x]=canvas(),paddle,ball,bricks,score,lives,keys={},loop;function reset(){clearInterval(loop);paddle=250;ball={x:300,y:320,vx:3.5,vy:-4};score=0;lives=3;keys={};bricks=[];for(let r=0;r<5;r++)for(let col=0;col<10;col++)bricks.push({x:25+col*55,y:45+r*25,w:47,h:16,on:true,color:['#42f5ef','#9b76ff','#ff43c6','#ffc857','#63f58b'][r]});loop=setInterval(step,1000/60)}function draw(){x.fillStyle='#070714';x.fillRect(0,0,600,400);bricks.forEach(b=>{if(b.on){x.fillStyle=b.color;x.fillRect(b.x,b.y,b.w,b.h)}});x.fillStyle='#42f5ef';x.fillRect(paddle,370,100,10);x.fillStyle='white';x.beginPath();x.arc(ball.x,ball.y,7,0,7);x.fill();x.fillText('SCORE '+score+'   LIVES '+lives,12,24);if(lives<=0||bricks.every(b=>!b.on)){x.fillStyle='#ff43c6';x.font='bold 32px Arial';x.textAlign='center';x.fillText(lives<=0?'GAME OVER':'YOU WIN!',300,210);x.textAlign='left'}}function step(){if(lives<=0||bricks.every(b=>!b.on))return;if(keys.ArrowLeft||keys.a)paddle-=6;if(keys.ArrowRight||keys.d)paddle+=6;paddle=Math.max(0,Math.min(500,paddle));ball.x+=ball.vx;ball.y+=ball.vy;if(ball.x<7||ball.x>593)ball.vx*=-1;if(ball.y<7)ball.vy=Math.abs(ball.vy);if(ball.vy>0&&ball.y>363&&ball.x>=paddle&&ball.x<=paddle+100){ball.vy=-Math.abs(ball.vy);ball.vx+=(ball.x-paddle-50)/45}for(let b of bricks)if(b.on&&ball.x>b.x&&ball.x<b.x+b.w&&ball.y>b.y&&ball.y<b.y+b.h){b.on=false;ball.vy*=-1;score+=10;break}if(ball.y>410){lives--;ball={x:300,y:320,vx:3.5,vy:-4}}draw()}let move=e=>{let r=c.getBoundingClientRect();paddle=Math.max(0,Math.min(500,(e.clientX-r.left)*600/r.width-50))},kd=e=>keys[e.key]=true,ku=e=>keys[e.key]=false;c.addEventListener('pointermove',move);document.addEventListener('keydown',kd);document.addEventListener('keyup',ku);controls('Mouse or arrows to move',reset);cleanup=()=>{clearInterval(loop);c.removeEventListener('pointermove',move);document.removeEventListener('keydown',kd);document.removeEventListener('keyup',ku)};reset()}
 function reflex(){open('Quick Click','Press Start, wait until the panel turns green, then click quickly.');let box=document.createElement('div');box.style.cssText='min-height:220px;border-radius:8px;background:#191932;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px';let msg=document.createElement('h3');msg.textContent='READY?';msg.style.font='800 24px Orbitron';let result=document.createElement('p');result.textContent='Test your reaction time';let b=document.createElement('button');b.className='play';b.textContent='START';b.style.width='auto';box.append(msg,result,b);content.append(box);let state='ready',timeout,start;function reset(){clearTimeout(timeout);state='ready';box.style.background='#191932';msg.textContent='READY?';result.textContent='Test your reaction time';b.textContent='START'}b.onclick=()=>{if(state==='ready'){state='wait';msg.textContent='WAIT FOR GREEN…';box.style.background='#35172e';result.textContent='Do not click yet';b.textContent='WAITING';timeout=setTimeout(()=>{state='go';start=performance.now();box.style.background='#123532';msg.textContent='CLICK NOW!';result.textContent='Go!';b.textContent='CLICK'},1000+Math.random()*2500)}else if(state==='wait'){clearTimeout(timeout);state='early';msg.textContent='TOO SOON!';result.textContent='Wait for green next time';b.textContent='TRY AGAIN'}else if(state==='go'){let ms=Math.round(performance.now()-start);state='done';msg.textContent=ms+' ms';result.textContent=ms<250?'Lightning-fast!':'Try again and beat your time';b.textContent='TRY AGAIN'}else reset()};cleanup=()=>clearTimeout(timeout)}
+
+
+// NEON ARCADE FAVORITES
+(function () {
+  const storageKey = 'neonArcadeFavorites';
+
+  function getFavorites() {
+    try {
+      return JSON.parse(localStorage.getItem(storageKey)) || [];
+    } catch {
+      return [];
+    }
+  }
+
+  function updateButtons() {
+    const favorites = getFavorites();
+
+    document.querySelectorAll('.favorite-btn').forEach(button => {
+      const id = button.dataset.favorite;
+      const saved = favorites.includes(id);
+
+      button.textContent = saved ? '★ Favorited' : '☆ Favorite';
+      button.classList.toggle('is-favorite', saved);
+      button.setAttribute(
+        'aria-label',
+        saved ? 'Remove from favorites' : 'Add to favorites'
+      );
+    });
+  }
+
+  document.addEventListener('click', function (event) {
+    const button = event.target.closest('.favorite-btn');
+    if (!button) return;
+
+    const id = button.dataset.favorite;
+    if (!id) return;
+
+    let favorites = getFavorites();
+
+    if (favorites.includes(id)) {
+      favorites = favorites.filter(item => item !== id);
+    } else {
+      favorites.push(id);
+    }
+
+    localStorage.setItem(storageKey, JSON.stringify(favorites));
+    updateButtons();
+  });
+
+  updateButtons();
+})();
