@@ -95,7 +95,11 @@ blumgiball: {
   url: 'https://harshulmoon.github.io/iframes/blumgiball.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
-
+bloxorz: {
+  title: 'Bloxorz',
+  url: 'https://harshulmoon.github.io/iframes/bloxorz.html',
+  hint: 'Use the arrow keys to roll the block.'
+},
     };
 
 
