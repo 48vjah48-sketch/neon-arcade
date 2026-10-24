@@ -72,6 +72,12 @@ fnaf1: {
   hint: 'If the game does not load, the website may block embedding.'
 },
 
+eggycar: {
+  title: 'Eggy Car',
+  url: 'https://harshulmoon.github.io/iframes/eggycar.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
