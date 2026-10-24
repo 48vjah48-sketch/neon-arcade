@@ -14,11 +14,11 @@ document.querySelectorAll('.play').forEach(b => {
         url: 'https://tikgame.org/embed/courtside26/',
         hint: 'If the game does not load, the website may block embedding.'
       },
-      retro: {
-        title: 'Retro Bowl',
-        url: 'https://www.miniplay.com/embed/retro-bowl',
-        hint: 'If the game does not load, the website may block embedding.'
-    },
+     retro: {
+  title: 'Retro Bowl',
+  url: 'https://harshulmoon.github.io/iframes/retrobowl.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     headsoccer: {
       title: 'Head Soccer 2022',
       url: 'https://games.construct.net/54347/latest',
