@@ -107,7 +107,12 @@ ragdollhit: {
   url: 'https://harshulmoon.github.io/iframes/ragdollhit.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
-
+granny: {
+  title: 'Granny',
+  url: 'https://harshulmoon.github.io/iframes/granny.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+ 
     };
 
 
