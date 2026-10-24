@@ -167,6 +167,11 @@ spacewaves: {
   url: 'https://harshulmoon.github.io/iframes/spacewaves.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+pvz2: {
+  title: 'Plants vs. Zombies 2',
+  url: 'https://harshulmoon.github.io/iframes/pvz2.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
