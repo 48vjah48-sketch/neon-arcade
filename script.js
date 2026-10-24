@@ -84,6 +84,12 @@ stickman: {
   hint: 'If the game does not load, the website may block embedding.'
 },
 
+flappybasketball: {
+  title: 'Flappy Basketball',
+  url: 'https://harshulmoon.github.io/iframes/flappybasketball.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
