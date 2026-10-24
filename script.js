@@ -43,6 +43,7 @@ document.querySelectorAll('.play').forEach(b => {
   };
 });
 
+
 function embeddedGame(game) {
   open(game.title, game.hint);
 
@@ -54,8 +55,26 @@ function embeddedGame(game) {
   frame.style.cssText =
     'width:100%;height:65vh;min-height:350px;border:0;border-radius:7px;background:#070714';
 
-  content.append(frame);
+  const fullscreenButton = document.createElement('button');
+  fullscreenButton.textContent = '⛶ FULL SCREEN';
+  fullscreenButton.style.cssText =
+    'display:block;margin:0 auto 10px;padding:10px 18px;background:#00e5ff;color:#070714;border:0;border-radius:7px;font-weight:bold;cursor:pointer';
+
+  fullscreenButton.addEventListener('click', async () => {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await frame.requestFullscreen();
+      }
+    } catch (error) {
+      alert('Fullscreen is not available for this game in your browser.');
+    }
+  });
+
+  content.append(fullscreenButton, frame);
 }
+
 
 function canvas(){let c=document.createElement('canvas');c.className='canvas';c.width=600;c.height=400;content.append(c);return[c,c.getContext('2d')]}
 function controls(text,restart){let d=document.createElement('div');d.className='controls';let s=document.createElement('span');s.textContent=text;let b=document.createElement('button');b.textContent='RESTART';b.onclick=restart;d.append(s,b);content.append(d)}
