@@ -117,6 +117,11 @@ granny: {
   url: 'https://harshulmoon.github.io/iframes/run3.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+happywheels: {
+  title: 'Happy Wheels',
+  url: 'https://harshulmoon.github.io/iframes/happywheels.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
 
     };
 
