@@ -66,6 +66,12 @@ geometrydash: {
   hint: 'If the game does not load, the website may block embedding.'
 },
 
+fnaf1: {
+  title: "Five Nights at Freddy's 1",
+  url: 'https://harshulmoon.github.io/iframes/fnaf1.html',
+  hint: 'If the game does not load, the website may block embedding.'
+},
+
     };
 
 
