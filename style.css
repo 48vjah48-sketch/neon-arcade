@@ -382,3 +382,86 @@ main {
     animation: none;
   }
 }
+
+/* NEON ARCADE - GLITCH STARTUP EFFECT */
+
+#arcade-intro.glitching .intro-logo {
+  animation: arcade-glitch 0.8s steps(2, end) both;
+}
+
+#arcade-intro.glitching .intro-symbol,
+#arcade-intro.glitching .intro-subtitle,
+#arcade-intro.glitching .intro-loading,
+#arcade-intro.glitching .intro-footer {
+  animation: arcade-flicker 0.8s steps(2, end) both;
+}
+
+#arcade-intro.glitching #press-start {
+  animation: arcade-button-glitch 0.8s steps(2, end) both;
+}
+
+#arcade-intro.glitching {
+  animation: arcade-screen-flash 0.8s steps(2, end) both;
+}
+
+@keyframes arcade-glitch {
+  0% {
+    transform: translate(0);
+    filter: none;
+    opacity: 1;
+  }
+  15% {
+    transform: translate(-8px, 3px) skewX(5deg);
+    filter: drop-shadow(7px 0 #22d3ee) drop-shadow(-7px 0 #ec4899);
+  }
+  30% {
+    transform: translate(7px, -2px) skewX(-7deg);
+    filter: drop-shadow(-8px 0 #22d3ee) drop-shadow(8px 0 #ec4899);
+  }
+  45% {
+    transform: translate(-4px, 2px);
+    opacity: 0.35;
+  }
+  60% {
+    transform: translate(5px, -3px) skewX(3deg);
+    filter: drop-shadow(6px 0 #ec4899);
+    opacity: 1;
+  }
+  75% {
+    transform: translate(-3px, 1px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(0);
+    filter: none;
+    opacity: 0;
+  }
+}
+
+@keyframes arcade-flicker {
+  0%, 100% { opacity: 0; }
+  20% { opacity: 1; }
+  35% { opacity: 0.2; }
+  50% { opacity: 1; }
+  70% { opacity: 0.3; }
+}
+
+@keyframes arcade-button-glitch {
+  0%, 100% { opacity: 0; transform: translateX(0); }
+  25% { opacity: 1; transform: translateX(-5px); }
+  50% { opacity: 0.4; transform: translateX(5px); }
+  75% { opacity: 1; transform: translateX(-2px); }
+}
+
+@keyframes arcade-screen-flash {
+  0%, 75%, 100% { background-color: transparent; }
+  80% { background-color: rgba(34, 211, 238, 0.3); }
+  90% { background-color: rgba(236, 72, 153, 0.22); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #arcade-intro.glitching,
+  #arcade-intro.glitching * {
+    animation-duration: 0.01ms !important;
+  }
+}
