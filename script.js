@@ -444,40 +444,79 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
 })();
 
 // NEON ARCADE - SOUND EFFECTS
+// NEON ARCADE - MUSIC AND SOUND
 (() => {
   const button = document.getElementById('sound-toggle');
   if (!button) return;
 
   let soundOn = false;
   let audioContext;
+  let musicTimer;
+  let nextNote = 0;
+  let melodyIndex = 0;
 
-  function playTone(frequency, duration, type = 'sine', volume = 0.035) {
-    if (!soundOn) return;
+  const melody = [
+    523.25, 659.25, 783.99, 659.25,
+    587.33, 698.46, 880, 698.46,
+    523.25, 659.25, 783.99, 1046.5,
+    880, 783.99, 659.25, 587.33
+  ];
 
+  function playNote(freq, start, duration, volume = 0.035) {
+    if (!soundOn || !audioContext) return;
+
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(freq, start);
+
+    gain.gain.setValueAtTime(0.001, start);
+    gain.gain.linearRampToValueAtTime(volume, start + 0.02);
+    gain.gain.setValueAtTime(volume, start + duration * 0.65);
+    gain.gain.exponentialRampToValueAtTime(
+      0.001, start + duration
+    );
+
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+    osc.start(start);
+    osc.stop(start + duration);
+  }
+
+  function startMusic() {
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     if (!AudioCtx) return;
 
-    audioContext ??= new AudioCtx();
+    audioContext ||= new AudioCtx();
+    audioContext.resume();
 
-    if (audioContext.state === 'suspended') {
-      audioContext.resume();
-    }
+    if (musicTimer) clearInterval(musicTimer);
 
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+    nextNote = audioContext.currentTime + 0.05;
 
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-    gain.gain.setValueAtTime(volume, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(
-      0.001,
-      audioContext.currentTime + duration
-    );
+    musicTimer = setInterval(() => {
+      if (!soundOn || !audioContext) return;
 
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + duration);
+      while (nextNote < audioContext.currentTime + 0.15) {
+        const note = melody[melodyIndex % melody.length];
+
+        playNote(note, nextNote, 0.22, 0.025);
+
+        // Add a quiet lower note for an arcade-style backing sound.
+        if (melodyIndex % 2 === 0) {
+          playNote(note / 2, nextNote, 0.3, 0.012);
+        }
+
+        melodyIndex++;
+        nextNote += 0.25;
+      }
+    }, 50);
+  }
+
+  function stopMusic() {
+    if (musicTimer) clearInterval(musicTimer);
+    musicTimer = null;
   }
 
   button.addEventListener('click', () => {
@@ -490,24 +529,21 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
     );
 
     if (soundOn) {
-      playTone(660, 0.12, 'sine', 0.05);
+      startMusic();
+    } else {
+      stopMusic();
     }
   });
 
   document.addEventListener('click', event => {
     if (!soundOn || event.target.closest('#sound-toggle')) return;
 
-    const gameCard = event.target.closest('.game-card');
-    const gameLaunch = event.target.closest('.cta');
-
-    if (gameCard) {
-      playTone(880, 0.09, 'sine');
-      setTimeout(() => playTone(1175, 0.12, 'sine'), 70);
-    } else if (gameLaunch) {
-      playTone(520, 0.12, 'triangle');
-      setTimeout(() => playTone(780, 0.18, 'triangle'), 100);
-    } else if (event.target.closest('button, a')) {
-      playTone(520, 0.045, 'sine', 0.02);
+    if (event.target.closest('.game-card')) {
+      const now = audioContext?.currentTime;
+      if (now !== undefined) {
+        playNote(880, now, 0.1, 0.025);
+        playNote(1174.66, now + 0.08, 0.12, 0.025);
+      }
     }
   });
 })();
