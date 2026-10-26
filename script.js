@@ -442,3 +442,72 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
   resize();
   animate();
 })();
+
+// NEON ARCADE - SOUND EFFECTS
+(() => {
+  const button = document.getElementById('sound-toggle');
+  if (!button) return;
+
+  let soundOn = false;
+  let audioContext;
+
+  function playTone(frequency, duration, type = 'sine', volume = 0.035) {
+    if (!soundOn) return;
+
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+
+    audioContext ??= new AudioCtx();
+
+    if (audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+    gain.gain.setValueAtTime(volume, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+      0.001,
+      audioContext.currentTime + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration);
+  }
+
+  button.addEventListener('click', () => {
+    soundOn = !soundOn;
+
+    button.textContent = soundOn ? '🔊 SOUND ON' : '🔇 SOUND OFF';
+    button.setAttribute(
+      'aria-label',
+      soundOn ? 'Disable sound' : 'Enable sound'
+    );
+
+    if (soundOn) {
+      playTone(660, 0.12, 'sine', 0.05);
+    }
+  });
+
+  document.addEventListener('click', event => {
+    if (!soundOn || event.target.closest('#sound-toggle')) return;
+
+    const gameCard = event.target.closest('.game-card');
+    const gameLaunch = event.target.closest('.cta');
+
+    if (gameCard) {
+      playTone(880, 0.09, 'sine');
+      setTimeout(() => playTone(1175, 0.12, 'sine'), 70);
+    } else if (gameLaunch) {
+      playTone(520, 0.12, 'triangle');
+      setTimeout(() => playTone(780, 0.18, 'triangle'), 100);
+    } else if (event.target.closest('button, a')) {
+      playTone(520, 0.045, 'sine', 0.02);
+    }
+  });
+})();
