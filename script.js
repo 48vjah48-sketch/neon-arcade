@@ -548,24 +548,29 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
   });
 })();
 
-// NEON ARCADE - PRESS START INTRO
+// NEON ARCADE - PRESS START GLITCH
 (() => {
   const intro = document.getElementById('arcade-intro');
   const startButton = document.getElementById('press-start');
 
   if (!intro || !startButton) return;
 
-  startButton.addEventListener('click', () => {
-    intro.classList.add('intro-hidden');
+  let started = false;
 
-    // Play a short startup sound if arcade audio is enabled.
-    const soundButton = document.getElementById('sound-toggle');
-    if (soundButton && soundButton.textContent.includes('SOUND ON')) {
-      // The existing sound system handles its own audio.
-    }
+  startButton.addEventListener('click', () => {
+    if (started) return;
+    started = true;
+
+    startButton.disabled = true;
+    intro.classList.add('glitching');
+
+    // Glitch, flash, then reveal the arcade.
+    setTimeout(() => {
+      intro.classList.add('intro-hidden');
+    }, 700);
 
     setTimeout(() => {
       intro.style.display = 'none';
-    }, 950);
+    }, 1650);
   });
 })();
