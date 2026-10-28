@@ -465,3 +465,20 @@ main {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* NEON ARCADE - CATEGORY FILTER LAYOUT */
+.filters {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.filters .filter {
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
+}
