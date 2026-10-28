@@ -192,6 +192,13 @@ eaglercraft: {
   url: 'https://harshulmoon.github.io/iframes/eaglercraft.html',
   hint: 'If the game does not load, the website may block embedding.'
 },
+{
+  title: "Bull33Math",
+  name: "Bull33Math",
+  url: "https://bull33math.granular.com.au/#shop",
+  category: "proxy",
+  image: "https://placehold.co/600x400/101020/22d3ee?text=Bull33Math"
+}
     };
 
 
