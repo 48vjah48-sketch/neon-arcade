@@ -579,3 +579,33 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
     }, 1650);
   });
 })();
+
+// NEON ARCADE - SEARCH FIX
+(() => {
+  const searchInput = document.querySelector(
+    'input[type="search"], #search, #searchInput, #search-input'
+  );
+
+  const cards = document.querySelectorAll('.card');
+
+  if (!searchInput || !cards.length) {
+    console.warn('Search fix: search input or game cards not found.');
+    return;
+  }
+
+  function filterGames() {
+    const query = searchInput.value.trim().toLowerCase();
+
+    cards.forEach(card => {
+      const name = (
+        card.dataset.name ||
+        card.querySelector('h3')?.textContent ||
+        ''
+      ).toLowerCase();
+
+      card.style.display = name.includes(query) ? '' : 'none';
+    });
+  }
+
+  searchInput.addEventListener('input', filterGames);
+})();
