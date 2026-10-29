@@ -580,21 +580,26 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
   });
 })();
 
-// NEON ARCADE - SEARCH FIX
+
+ // NEON ARCADE - SEARCH + CATEGORY FIX
 (() => {
   const searchInput = document.querySelector(
     'input[type="search"], #search, #searchInput, #search-input'
   );
 
-  const cards = document.querySelectorAll('.card');
+  const cards = [...document.querySelectorAll('.card')];
+  const filterButtons = [...document.querySelectorAll('.filter')];
 
   if (!searchInput || !cards.length) {
     console.warn('Search fix: search input or game cards not found.');
     return;
   }
 
+  let activeCategory = 'all';
+
   function filterGames() {
     const query = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
 
     cards.forEach(card => {
       const name = (
@@ -603,9 +608,33 @@ function reflex(){open('Quick Click','Press Start, wait until the panel turns gr
         ''
       ).toLowerCase();
 
-      card.style.display = name.includes(query) ? '' : 'none';
+      const category = (card.dataset.category || '').toLowerCase();
+
+      const matchesSearch = name.includes(query);
+      const matchesCategory =
+        activeCategory === 'all' || category === activeCategory;
+
+      const show = matchesSearch && matchesCategory;
+
+      card.hidden = !show;
+      card.style.display = show ? '' : 'none';
+
+      if (show) visibleCount++;
     });
+
+    const empty = document.querySelector('#empty');
+    if (empty) empty.hidden = visibleCount > 0;
   }
 
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      activeCategory = button.dataset.filter || 'all';
+      filterGames();
+    });
+  });
+
   searchInput.addEventListener('input', filterGames);
+
+  filterGames();
 })();
+
