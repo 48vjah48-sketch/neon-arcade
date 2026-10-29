@@ -197,6 +197,11 @@ bull33math: {
   url: 'https://bull33math.granular.com.au/#shop',
   hint: 'If the game does not load, the website may block embedding.'
 },
+golforbit: {
+  title: 'Golf Orbit',
+  url: 'https://sportsgames.gitlab.io/golf-orbit/',
+  hint: 'If the game does not load, the website may block embedding.'
+},
     };
 
 
